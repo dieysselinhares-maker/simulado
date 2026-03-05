@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<title>Simulado de 10 questões sobre Ciências de Dados</title>
+
+<style>
+body {
+    background: url('IEN.png') no-repeat center center fixed;
+    background-size: cover; /* cobre toda a tela */
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    color: white;
+    text-align: justify;
+}
+.container{
+    background: rgba(255, 255, 255, 0.05); /* quase transparente, deixa ver o fundo */
+    border: 1px solid rgba(255,255,255,0.2);
+    padding:30px;
+    border-radius:15px;
+    width: 500px;
+    margin:auto;
+    box-shadow: 0 0 30px rgba(255,255,255,0.1);
+}
+input, select{
+    padding:10px;
+    margin:10px;
+    width:80%;
+}
+
+button{
+    padding:10px 20px;
+    margin-top:10px;
+    background: linear-gradient(135deg, #6a11cb, #2575fc);
+    color:white;
+    border:none;
+    border-radius:25px;
+    cursor:pointer;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+button:hover{
+    background: linear-gradient(135deg, #2575fc, #6a11cb);
+    transform: scale(1.05);
+}
+
+.timer{
+    font-size:20px;
+    color:red;
+    margin-bottom:10px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container" id="inicio">
+    <h1>SIMULADO</h1>
+ <h2>10 Questões sobre Ciências de Dados</h2>
+ <h3>Boa Sorte!</h3>
+    <p>Selecione seu nome:</p>
+    <select id="nomeAluno">
+  <option value="AUGUSTO JOAQUIM CANEDO DA SILVA SUMENSSE">AUGUSTO JOAQUIM CANEDO DA SILVA SUMENSSE</option>
+  <option value="BIANCA BORDINHON GONÇALVES">BIANCA BORDINHON GONÇALVES</option>
+  <option value="BRUNO ALEXANDRE FERREIRA MAIA">BRUNO ALEXANDRE FERREIRA MAIA</option>
+  <option value="BRUNO HENRIQUE DA SILVA BOZZ">BRUNO HENRIQUE DA SILVA BOZZ</option>
+  <option value="DANIEL MOLON DOS SANTOS">DANIEL MOLON DOS SANTOS</option>
+  <option value="EDUARDO SILVA ROCHA">EDUARDO SILVA ROCHA</option>
+  <option value="EMANUEL MEINKE SINGESKI">EMANUEL MEINKE SINGESKI</option>
+  <option value="FERNANDO CORDEIRO DOS SANTOS JUNIOR">FERNANDO CORDEIRO DOS SANTOS JUNIOR</option>
+  <option value="GUILHERME ALBERTO DOS SANTOS SCHNEIDER">GUILHERME ALBERTO DOS SANTOS SCHNEIDER</option>
+  <option value="GUSTAVO TRIQUES DOS SANTOS">GUSTAVO TRIQUES DOS SANTOS</option>
+  <option value="HEITOR OLIVEIRA RODRIGUES ARAUJO">HEITOR OLIVEIRA RODRIGUES ARAUJO</option>
+  <option value="HERCULES GABRIEL NUNES RAMOS">HERCULES GABRIEL NUNES RAMOS</option>
+  <option value="HERICK JOSE SANTOS LOPES">HERICK JOSE SANTOS LOPES</option>
+  <option value="ISAAC EMMANUEL ROJAS CANO">ISAAC EMMANUEL ROJAS CANO</option>
+  <option value="ISAQUE CRISOSTOMO DOS SANTOS">ISAQUE CRISOSTOMO DOS SANTOS</option>
+  <option value="JOAO PEDRO DA SILVA OLIVEIRA">JOAO PEDRO DA SILVA OLIVEIRA</option>
+  <option value="JOÃO VYCTOR CABRAL DE SOUZA DUTRA">JOÃO VYCTOR CABRAL DE SOUZA DUTRA</option>
+  <option value="JUAN ALEX DA COSTA">JUAN ALEX DA COSTA</option>
+  <option value="KAUÃ ASAF FERREIRA">KAUÃ ASAF FERREIRA</option>
+  <option value="LEANDRO ISAUL VIDELA">LEANDRO ISAUL VIDELA</option>
+  <option value="LUCAS DA CRUZ RAMOS">LUCAS DA CRUZ RAMOS</option>
+  <option value="LUCAS MARTINS VIEIRA">LUCAS MARTINS VIEIRA</option>
+  <option value="LUIZ AUGUSTO BERLANDA">LUIZ AUGUSTO BERLANDA</option>
+  <option value="NATAN ALVES DO AMARAL">NATAN ALVES DO AMARAL</option>
+  <option value="NATHALLY YASMIN CROZETA">NATHALLY YASMIN CROZETA</option>
+  <option value="NATHILLY NATHALIA ALMEIDA">NATHILLY NATHALIA ALMEIDA</option>
+  <option value="PEDRO ALVES DA LUZ">PEDRO ALVES DA LUZ</option>
+  <option value="RENNAN ROCHA DOS SANTOS">RENNAN ROCHA DOS SANTOS</option>
+  <option value="ROGER DA SILVA BRAGA">ROGER DA SILVA BRAGA</option>
+  <option value="RYAN APARECIDO DUARTE FERREIRA">RYAN APARECIDO DUARTE FERREIRA</option>
+  <option value="VINÍCIUS BOTELHO CRISTALDO">VINÍCIUS BOTELHO CRISTALDO</option>
+  <option value="VINICIUS LOPES FRANCISCO">VINICIUS LOPES FRANCISCO</option>
+  <option value="VITOR HUGO GOMES DE OLIVEIRA MELO">VITOR HUGO GOMES DE OLIVEIRA MELO</option>
+  <option value="009">009</option><option>
+
+
+                
+    </select>
+
+    <input type="text" id="turma" placeholder="Turma"><br>
+    <button onclick="iniciarProva()">Iniciar Prova</button>
+</div>
+
+<div class="container" id="prova" style="display:none;">
+    <div class="timer">
+        Tempo Total: <span id="tempoTotal">12:00</span><br>
+        Tempo da Questão: <span id="tempoQuestao">01:00</span>
+    </div>
+
+    <h2 id="pergunta">Pergunta aparecerá aqui</h2>
+    <div id="alternativas"></div>
+</div>
+
+<script>
+let aluno = "";
+let turma = "";
+let tempoTotal = 720; // 12 minutos
+let tempoQuestao = 80; // 1 minutos
+let contadorTotal;
+let contadorQuestao;
+let indice = 0;
+let respostasAluno = [];
+
+// Exemplo de 10 perguntas
+let perguntas = [
+
+    { pergunta: "Questão 1\nx = 5\ny = 3\nprint(x + y)\nQual será o resultado?", opcoes: ["5", "8", "53"] },
+    { pergunta: "Questão 2\nnome = \"Diego\"\nprint(nome[0])\nQual será a saída?", opcoes: ["D", "i", "Diego"] },
+    { pergunta: "Questão 3\nQual linha de código Python vai imprimir a frase: 'A Lady Gaga tem 39 anos.'?", opcoes: ["print(f'A {nome} tem {idade} anos')", "print('A ' + nome + str(idade) + ' anos')", "print('A {nome} tem {idade} anos')" ] },    
+    { pergunta: "Questão 4\nO código abaixo foi escrito em Python:\n\nnome = lady gaga\nidade = 39\nprint(f\"A {nome} tem {idade} anos\")\n\nO que acontecerá quando tentar executar esse código?", opcoes: ["A variável 'nome' precisa ser uma string entre aspas, senão não funciona.", "A impressão será: A lady gaga tem 39 anos", "Nada acontecerá, o código roda normalmente mas imprime literal {nome}"] },
+    { pergunta: "Questão 5\nQual comando cria um DataFrame a partir de um dicionário chamado 'dados'?", opcoes: [ "pd.df(dados)", "pd.DataFrame(dados)", "pd.Dataframe(dados)"] },
+    { pergunta: "Questão 6\ndf = pd.dataframe(dff). O que irá acontecer?", opcoes: ["O pandas não será importado", "Erro, escrita da função incorreta", "A tabela está vazia"] },
+    { pergunta: "Questão 7\nColuna 'nome' com tipos mistos. Qual o erro?", opcoes: ["DataFrame não aceita tipos mistos", "Pode confundir, mas não dá erro ", "Erro de importação"] },
+    { pergunta: "Questão 8\nQual será o resultado desse código? \nimport pandas as pd \ndados = {\n'nome': ['Ana', 'Leo'],\n'idade': [20, 25] \n} \ndff = pd.DataFrame(dados)\nprint(df)", opcoes: ["Não há erro, vai imprimir normalmente", "O nome da variável está incorreto ", "Pandas está vazio"] },
+    { pergunta: "Questão 9\nComo você acessa apenas a coluna nome? \nimport pandas as pd \ndados = {\n'nome': ['Ana', 'Leo'],\n'idade': [20, 25] \n} \ndf = pd.DataFrame(dados)\nprint(df)", opcoes: ["df.nome()", "df.(0)", "df['nome']"] },
+    { pergunta: "Questão 10\nO que vai acontecer? \nimport pandas as pd\ndados = {\n'Nome': ['Ana', 'Leo', 'Maria'],\n'idade': [20, 25, 22]\n}\ndf = pd.DataFrame(dados)\nprint(df['nome'])", opcoes: [ "imprime corretamente a coluna nome", "Dá erro", "Mostra Nome"] }
+
+];
+
+function iniciarProva(){
+    aluno = document.getElementById("nomeAluno").value;
+    turma = document.getElementById("turma").value;
+
+    if(aluno === "" || turma === ""){
+        alert("Selecione seu nome e digite a turma!");
+        return;
+    }
+
+    document.getElementById("inicio").style.display = "none";
+    document.getElementById("prova").style.display = "block";
+
+    iniciarCronometroTotal();
+    mostrarPergunta();
+}
+
+function iniciarCronometroTotal(){
+    contadorTotal = setInterval(function(){
+        tempoTotal--;
+        let minutos = Math.floor(tempoTotal/60);
+        let segundos = tempoTotal%60;
+        document.getElementById("tempoTotal").innerText = (minutos<10?"0":"")+minutos+":"+(segundos<10?"0":"")+segundos;
+
+        if(tempoTotal <= 0){
+            finalizarProva();
+        }
+    },1000);
+}
+
+function iniciarCronometroQuestao(){
+    tempoQuestao = 80;
+    contadorQuestao = setInterval(function(){
+        tempoQuestao--;
+        let minutos = Math.floor(tempoQuestao/60);
+        let segundos = tempoQuestao%60;
+        document.getElementById("tempoQuestao").innerText = (minutos<10?"0":"")+minutos+":"+(segundos<10?"0":"")+segundos;
+
+        if(tempoQuestao <= 0){
+            proximaPergunta();
+        }
+    },1000);
+}
+
+function mostrarPergunta(){
+    if(indice >= perguntas.length){
+        finalizarProva();
+        return;
+    }
+
+    document.getElementById("pergunta").innerText = perguntas[indice].pergunta;
+    let divOpcoes = document.getElementById("alternativas");
+    divOpcoes.innerHTML = "";
+
+    perguntas[indice].opcoes.forEach(function(opcao){
+        let btn = document.createElement("button");
+        btn.innerText = opcao;
+        btn.onclick = function(){
+            respostasAluno.push(opcao); // guarda a resposta do aluno
+            proximaPergunta();
+        }
+        divOpcoes.appendChild(btn);
+    });
+
+    iniciarCronometroQuestao();
+}
+
+function proximaPergunta(){
+    clearInterval(contadorQuestao);
+    indice++;
+    mostrarPergunta();
+}
+
+function finalizarProva(){
+    clearInterval(contadorTotal);
+    clearInterval(contadorQuestao);
+
+    let respostasFormatadas = respostasAluno.join(" | "); // transforma array em string
+
+    fetch("https://script.google.com/macros/s/AKfycbxOXHOED0VsXP2Tuq1BZr7tLK2bDDCrt2mpPGUqbI6tk7fF5FzGKnoXNRw8_mjguszI/exec", { // <-- substitua pelo seu link do Apps Script
+        method: "POST",
+        body: JSON.stringify({
+            nome: aluno,
+            turma: turma,
+            respostas: respostasFormatadas,
+            tempo: document.getElementById("tempoTotal").innerText
+        })
+    })
+    .then(response => response.text())
+    .then(data => {
+        if(data === "Aluno já respondeu"){
+            alert("Você já respondeu a prova. Não é possível fazer novamente.");
+            document.body.innerHTML = "<h1>Acesso negado</h1>";
+        } else {
+            document.body.innerHTML = "<h1>Prova Finalizada</h1><p>Dados enviados com sucesso!</p>";
+        }
+    })
+    .catch(error => {
+        document.body.innerHTML = "<h1>Erro ao enviar dados</h1>";
+    });
+}
+</script>
+
+</body>
+</html>
